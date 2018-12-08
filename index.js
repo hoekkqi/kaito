@@ -22,7 +22,37 @@ client.on('message', message => {
   // Our standard argument/command name definition.
   const args = message.content.slice(config.prefixJin.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
-//   if(command === 'test'){
+
+  if(command === 'ev' || command === 'eval'){
+    if(message.author.id !== '318044130796109825') return message.channel.send("`You're not my Developer!`");
+    // ? Easy
+    const pu = message.channel
+    let command = message.content.slice(config.prefixJin.length);
+    let split = command.split(" ");
+    command = split[0];
+    split.shift();
+    let code = split.join(" ");
+    try {
+      let ev = require('util').inspect(eval(code));
+    if (ev.length > 1950) {
+      ev = ev.substr(0, 1950);
+    }
+    let token = config.tokenJin.replace(/\./g, "\.")
+    let tooken = new RegExp(token, 'g')
+    ev = ev.replace(tooken, `haha yes`);
+    let e = new D.RichEmbed()
+        e.addField("Input", "```js\n" + code + "```")
+        .addField("Eval", "```js\n"+ev+"```")
+        .setColor(0xf24946)
+        message.channel.send(e)
+  } catch(err) {
+    message.channel.send(e.setDescription("```js\n" + err + "```"));
+  }
+}
+
+
+
+  //   if(command === 'test'){
 //       T.post('statuses/update', {
 //           status: message.content.slice(config.prefixJin + command).trim().split(/ +/g)
 //       },  function(err, data, response) {
